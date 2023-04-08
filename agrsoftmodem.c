@@ -190,7 +190,7 @@ int __init modem_init_module (void)
   ret = wrap_linux_modem_init ();
   if (!ret) {
 	  printk("<1>Loading module %s version %s (%s)\n", modem_name, modem_version, modem_revdate);
-	  add_taint(TAINT_PROPRIETARY_MODULE);
+	  add_taint(TAINT_PROPRIETARY_MODULE, false);
   }
   else
 	  printk("<1>Could not detect Agere soft modem device\n Agere soft modem driver not loaded\n");
@@ -271,7 +271,7 @@ fnatr void *x_request_region(unsigned long start, unsigned long n, const char *n
 int x_check_region(unsigned long start, unsigned long n) { return (check_region (start, n)); }
 void x_release_region(unsigned long start, unsigned long n) { release_region(start, n); }
 #else
-fnatr int x_check_region(unsigned long start, unsigned long n) { return (__check_region(&ioport_resource, start, n)); }
+fnatr int x_check_region(unsigned long start, unsigned long n) { return (__request_region(&ioport_resource, start, n)); }
 fnatr void x_release_region(unsigned long start, unsigned long n) { __release_region(&ioport_resource, (start), (n)); }
 #endif
 
